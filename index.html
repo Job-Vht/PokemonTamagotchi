@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="index.js" defer></script>
+  <title>Pokémon Tamagotchi</title>
+</head>
+
+<body>
+
+  <!-- Code voor het keuzescherm, waar de gerbuiker zijn Pokémon kiest -->
+  <div id="keuzeScherm" class="scherm actief">
+    <h1>Kies je Pokémon</h1>
+    <div class="pokemonKeuze">
+      <div>
+        <img src="images/bulbasaur.png" class="keuze" alt="Bulbasaur" data-pokemon="bulbasaur">
+        <p>Bulbasaur</p>
+      </div>
+      <div>
+        <img src="images/charmander.png" class="keuze" alt="Charmander" data-pokemon="charmander">
+        <p>Charmander</p>
+      </div>
+      <div>
+        <img src="images/squirtle.png" class="keuze" alt="Squirtle" data-pokemon="squirtle">
+        <p>Squirtle</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code voor het homescherm -->
+  <div id="homeScherm" class="scherm">
+    <h1 id="pokemonNaam"></h1>
+
+    <div class="pokemonContainer">
+      <div class="voeren">
+        <img id="voerKnop" src="images/candy.png" alt="Voerknop" class="voerknop">
+        <p id="rareCandyAantal">Rare Candy: 0</p>
+      </div>
+      <div id="pokemon"></div>
+      <img id="vechtKnop" src="images/battle.png" alt="Vechten" class="vechtknop">
+    </div>
+
+
+    <p>Level: <span id="levelNummer">1</span></p>
+    <p>EXP: <span id="expPunten">0</span>/100</p>
+    <div class="expbarContainer">
+      <div id="expBar" class="expBar"></div>
+    </div>
+
+
+  </div>
+
+  <!-- Code voor het Pokémon evolutiescherm -->
+  <div id="evolutieScherm" class="scherm">
+    <h1>Je Pokémon evolueert!</h1>
+    <img id="evolutieAfbeelding" src="" alt="Evolutie">
+    <p id="evolutieNaam"></p>
+  </div>
+
+  <!-- Code voor het gevecht scherm -->
+  <div id="vechtScherm" class="scherm">
+    <h1>Versla de vijand!</h1>
+    <button id="aanvalKnop">Aanval</button>
+    <div class="gevechtContainer">
+      <div class="eigen">
+        <img id="jouwPokemon" src="" alt="Jouw Pokémon">
+        <div class="hpbarContainer">
+          <div id="hpBar" class="hpBar"></div>
+        </div>
+      </div>
+      <div class="vijand">
+        <img id="vijandPokemon" src="images/gengar.png" alt="Vijandige Pokémon">
+        <div class="hpbarContainer">
+          <div id="vijandHpBar" class="hpBar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>

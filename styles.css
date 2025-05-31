@@ -1,0 +1,197 @@
+/*  Scherm Activeren
+Ik heb uiteindelijk !important moeten toevoegen omdat ik anders 
+steeds al mijn schermen tegelijk kreeg te zien */
+
+.scherm {
+    display: none !important;
+}
+
+.scherm.actief {
+    display: flex !important;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/*  Algemeen    */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow:
+        3px 3px 0 #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+p {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow:
+        1px 1px 0 #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+#keuzeScherm {
+    background-image: url('images/keuzeachtergrond.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#keuzeScherm div {
+    display: flex;
+    justify-content: center;
+}
+
+#homeScherm {
+    background-image: url('images/homeachtergrond.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+#homeScherm img {
+    padding: 1em;
+    width: 100px;
+    transition: 0.2s ease;
+}
+
+#homeScherm img:hover {
+    transform: scale(1.1);
+}
+
+
+.pokemonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#evolutieScherm {
+    background-image: url('images/evolutieachtergrond.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#evolutieScherm img {
+    width: 200px;
+}
+
+
+/*Exp Bar*/
+.expbarContainer {
+    width: 300px;
+    height: 20px;
+    background: lightgray;
+    border: 2px solid;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.expBar {
+    height: 100%;
+    background: aqua;
+    width: 0%;
+    border-radius: 10px;
+}
+
+/*Pokémon Keuze*/
+.pokemonKeuze img {
+    width: 200px;
+    margin: 1em;
+    transition: 0.5s ease;
+}
+
+.pokemonKeuze img:hover {
+    transform: scale(1.1);
+}
+
+.pokemonKeuze div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: large;
+}
+
+#pokemon {
+    scale: 1.5;
+    margin-left: 7em;
+    margin-right: 7em;
+}
+
+#vechtScherm {
+    background-image: url('images/vechtachtergrond.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gevechtContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+}
+
+.gevechtContainer img {
+    width: 200px;
+}
+
+button {
+    width: 200px;
+    height: 50px;
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+
+.hpbarContainer {
+    width: 200px;
+    height: 20px;
+    background: lightgray;
+    border: 2px solid;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.hpBar {
+    height: 100%;
+    background: aqua;
+    width: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
