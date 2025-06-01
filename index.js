@@ -5,13 +5,15 @@ let exp = 0;
 const maxExp = 100;
 let rareCandy = 0;
 let vijandHP = 100;
+let jouwHP = 100;
+let hpInterval;
 
-
-const audio = new Audio();
-audio.src = './'
+const middelEvoluties = ['charmeleon', 'ivysaur', 'wartortle'];
+const laatsteEvoluties = ['charizard', 'venusaur', 'blastoise'];
 
 // Scherm Wisselen
 function wisselScherm(idVanNieuwScherm) {
+
   // Verberg alle schermen
   document.querySelectorAll('.scherm').forEach(scherm => {
     scherm.classList.remove('actief');
@@ -19,6 +21,22 @@ function wisselScherm(idVanNieuwScherm) {
 
   // Toon alleen het nieuwe scherm
   document.getElementById(idVanNieuwScherm).classList.add('actief');
+}
+
+// Melding functie
+function toonMelding(tekst, callback = null) {
+  const meldingDiv = document.getElementById('melding');
+  const meldingTekst = document.getElementById('meldingTekst');
+
+  meldingTekst.textContent = tekst;
+  meldingDiv.style.display = 'block';
+
+  setTimeout(() => {
+    meldingDiv.style.display = 'none';
+    if (callback) {
+      callback();
+    }
+  }, 2000);
 }
 
 // Pokemon kiezen
@@ -46,6 +64,14 @@ function kiesPokemon(pokemonNaam) {
   img.src = `images/${pokemonNaam}.png`;
   img.alt = pokemonNaam;
 
+  if (middelEvoluties.includes(pokemonNaam)) {
+    img.classList.add('middel');
+  }
+
+  if (laatsteEvoluties.includes(pokemonNaam)) {
+    img.classList.add('groot');
+  }
+
   const pokemonDiv = document.querySelector('#pokemon');
   pokemonDiv.textContent = '';
   pokemonDiv.appendChild(img);
@@ -56,12 +82,12 @@ function kiesPokemon(pokemonNaam) {
 }
 
 
-// EXP up
+// Exp verhogen
 function voerPokemon() {
   if (rareCandy <= 0) {
-    alert("Je hebt geen Rare Candy meer!");
+    toonMelding("Je hebt geen Rare Candy meer! Vecht om meer te verdienen.");
     return;
-  }
+  }  
 
   if (exp < maxExp) {
     rareCandy -= 1;
@@ -73,6 +99,7 @@ function voerPokemon() {
       exp = 0;
       document.querySelector('#levelNummer').textContent = level;
 
+      // Evolutie op level 5 en 15
       if ((level === 5 || level === 15) && evoluties[gekozenPokemon]) {
         startEvolutie();
         return;
@@ -88,15 +115,13 @@ function voerPokemon() {
   checkVoerKnop();
 }
 
-
-
 // Update de balk en tekst
 const bar = document.querySelector('#expBar');
 bar.style.width = (exp / maxExp) * 100 + '%';
 
 document.querySelector('#expPunten').textContent = exp;
 
-
+// EventListeners
 document.querySelectorAll('.keuze').forEach(img => {
   img.addEventListener('click', () => {
     const naam = img.dataset.pokemon;
@@ -110,7 +135,7 @@ document.querySelector('#vechtKnop').addEventListener('click', () => {
   toonVechtScherm();
 });
 
-
+// Evoluties
 const evoluties = {
   charmander: { naam: 'Charmeleon', afbeelding: 'charmeleon.png' },
   bulbasaur: { naam: 'Ivysaur', afbeelding: 'ivysaur.png' },
@@ -128,58 +153,70 @@ function startEvolutie() {
 
   wisselScherm('evolutieScherm');
 
+  speelEvolutie()
+
   setTimeout(() => {
-    gekozenPokemon = evolutie.afbeelding.split('.')[0].toLowerCase();
+    gekozenPokemon = evolutie.naam.toLowerCase();
     kiesPokemon(gekozenPokemon);
   }, 3000);
 }
 
+// Vechten functie
 function vechten() {
 
   wisselScherm('vechtScherm')
 }
 
+// Audio functies
 function speelCry(pokemonNaam) {
   const audio = new Audio(`audio/${pokemonNaam}.mp3`);
   audio.play();
 }
 
-function toonVechtScherm() {
+function speelEvolutie() {
+  const audio = new Audio(`audio/pokemonevolve.mp3`);
+  audio.play();
+}
 
+// Vecht scherm
+function toonVechtScherm() {
   vijandHP = 100;
- 
+  jouwHP = 100;
+
   document.querySelector('#jouwPokemon').src = `images/${gekozenPokemon}.png`;
   document.querySelector('#jouwPokemon').alt = gekozenPokemon;
+  document.querySelector('#hpBar').style.width = jouwHP + '%';
 
-
+  // Random Pokémon elk gevecht
   const vijanden = ['rattata', 'pidgey', 'pikachu'];
   const random = vijanden[Math.floor(Math.random() * vijanden.length)];
 
   document.querySelector('#vijandPokemon').src = `images/${random}.png`;
   document.querySelector('#vijandPokemon').alt = random;
-
-  wisselScherm('vechtScherm');
-}
-
-
-document.querySelector('#aanvalKnop').addEventListener('click', () => {
-  vijandHP -= 5;
-
-  if (vijandHP < 0) vijandHP = 0;
-
   document.querySelector('#vijandHpBar').style.width = vijandHP + '%';
 
-  if (vijandHP === 0) {
-    alert('Je hebt de vijand verslagen! 🎉');
 
-    wisselScherm('homeScherm');
-  }
-});
+  wisselScherm('vechtScherm');
 
+  // Elke seconden 10 hp van mijn Pokémon afhalen
+  hpInterval = setInterval(() => {
+    jouwHP -= 10;
+    if (jouwHP < 0) jouwHP = 0;
+    document.querySelector('#hpBar').style.width = jouwHP + '%';
+
+    if (jouwHP === 0) {
+      clearInterval(hpInterval);
+      toonMelding('Je hebt verloren :(', () => wisselScherm('homeScherm'));
+    }
+  }, 1000);
+}
+
+// Rare Candy aantal updaten
 function updateRareCandy() {
   document.querySelector('#rareCandyAantal').textContent = `Rare Candy: ${rareCandy}`;
 }
 
+// Aanvallen
 document.querySelector('#aanvalKnop').addEventListener('click', () => {
   vijandHP -= 5;
   if (vijandHP < 0) vijandHP = 0;
@@ -187,11 +224,11 @@ document.querySelector('#aanvalKnop').addEventListener('click', () => {
   document.querySelector('#vijandHpBar').style.width = vijandHP + '%';
 
   if (vijandHP === 0) {
-    alert('Je hebt de vijand verslagen! 🎉');
+    clearInterval(hpInterval);
+    toonMelding('Je hebt de vijand verslagen! :)', () => wisselScherm('homeScherm'));
 
     rareCandy += 10;
     updateRareCandy();
-
-    wisselScherm('homeScherm');
   }
 });
+
